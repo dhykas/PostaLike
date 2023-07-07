@@ -29,7 +29,7 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 Route::controller(UserController::class)->group(function () {
-    Route::get('user/{name}', 'show');
+    Route::get('user/{name}', 'show')->name('user');
     Route::get('/acc/edit', 'edit')->middleware(Authenticate::class);
     Route::get('/create', 'create')->middleware(Authenticate::class);
     Route::post('/post', 'post')->middleware(Authenticate::class);

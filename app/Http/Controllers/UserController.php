@@ -12,7 +12,12 @@ class UserController extends Controller
 {
     public function show($name){
         
+
+        
         $data = User::where('name',$name)->first();
+        if(!$data){
+            return view('errors/404');
+        }
         $id= $data->id;
         $post = Post::with('user')->withCount('like')->where('user_id',$id)->get();
         $count = Post::where('user_id', $id)->count();
