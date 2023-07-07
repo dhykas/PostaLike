@@ -43,10 +43,10 @@
                   <span class="text-xl font-bold block uppercase tracking-wide text-blueGray-600">100</span><span class="text-sm text-blueGray-400">Friends</span>
                 </div>
                 <div class="mr-4 p-3 text-center">
-                  <span class="text-xl font-bold block uppercase tracking-wide text-blueGray-600">220</span><span class="text-sm text-blueGray-400">Likes</span>
+                  <span class="text-xl font-bold block uppercase tracking-wide text-blueGray-600">{{ $totalLikes }}</span><span class="text-sm text-blueGray-400">Likes</span>
                 </div>
                 <div class="lg:mr-4 p-3 text-center">
-                  <span class="text-xl font-bold block uppercase tracking-wide text-blueGray-600">11</span><span class="text-sm text-blueGray-400">Post</span>
+                  <span class="text-xl font-bold block uppercase tracking-wide text-blueGray-600">{{ $count }}</span><span class="text-sm text-blueGray-400">Post</span>
                 </div>
               </div>
             </div>

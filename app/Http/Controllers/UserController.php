@@ -15,11 +15,23 @@ class UserController extends Controller
         $data = User::where('name',$name)->first();
         $id= $data->id;
         $post = Post::with('user')->withCount('like')->where('user_id',$id)->get();
+        $count = Post::where('user_id', $id)->count();
+        $totalLikes = 0;
+
+        foreach ($post as $p) {
+            $totalLikes += $p->like_count;
+        }
+
+
+
         // dd($post[0]->like_count);
+        // dd($count);
         if($data){
             return view('user',[
                 'user' => $data,
-                'post' => $post
+                'post' => $post,
+                'count' => $count,
+                'totalLikes' => $totalLikes,
                 ]);
         }else{
             return view('partials/404');
