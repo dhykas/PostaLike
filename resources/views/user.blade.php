@@ -2,6 +2,13 @@
 @section('body')
 <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css">
 <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
+@php
+            $totalLikes = 0;
+
+foreach ($post as $p) {
+    $totalLikes += $p->like_count;
+}
+@endphp
 
 <main class="profile-page">
   <section class="relative block h-500-px">
@@ -90,11 +97,15 @@
                     <form action="/like/{{ $item->id }}" method="POST">
                       @csrf
                       <button type="submit">
-                        @if ($item->like_count)
-                        <i class="fas fa-heart text-red-500 text-3xl"></i>
-                        @else
-                        <i class="far fa-heart text-red-500 text-3xl p-2"></i>
-                        @endif
+
+                        {{-- need to be fixed --}}
+                    @if (Auth::user() && Auth::user()->likedPosts->contains($item))
+                      <i class="fas fa-heart text-red-500 text-3xl"></i>
+                    @else
+                      <i class="far fa-heart text-red-500 text-3xl p-2"></i>
+                    @endif
+                    
+
                       </button>
                     {{ $item->like_count }}
 
@@ -145,11 +156,15 @@
   </section>
 </main>
 
-<div class="fixed bottom-4 right-4">
-  <a href="/create" class="gradient hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full shadow-lg">
-    <i class="fas fa-plus"></i> Create
-  </a>
-</div>
+@auth
+  @if ($user->name === Auth::user()->name)
+    <div class="fixed bottom-4 right-4">
+      <a href="/create" class="gradient hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full shadow-lg">
+        <i class="fas fa-plus"></i> Create
+      </a>
+    </div>
+  @endif
+@endauth
 
 
 @endsection

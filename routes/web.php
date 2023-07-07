@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Controller;
+use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
@@ -29,10 +30,10 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::controller(UserController::class)->group(function () {
     Route::get('user/{name}', 'show');
-    Route::get('/acc/edit', 'edit');
-    Route::get('/create', 'create');
-    Route::post('/post', 'post');
-    Route::post('/like/{id}', 'like');
+    Route::get('/acc/edit', 'edit')->middleware(Authenticate::class);
+    Route::get('/create', 'create')->middleware(Authenticate::class);
+    Route::post('/post', 'post')->middleware(Authenticate::class);
+    Route::post('/like/{id}', 'like')->middleware(Authenticate::class);
     Route::post('/edits', 'edits')->name('edits');
 });
 

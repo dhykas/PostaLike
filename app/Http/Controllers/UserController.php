@@ -16,22 +16,15 @@ class UserController extends Controller
         $id= $data->id;
         $post = Post::with('user')->withCount('like')->where('user_id',$id)->get();
         $count = Post::where('user_id', $id)->count();
-        $totalLikes = 0;
-
-        foreach ($post as $p) {
-            $totalLikes += $p->like_count;
-        }
-
-
 
         // dd($post[0]->like_count);
         // dd($count);
+        
         if($data){
             return view('user',[
                 'user' => $data,
                 'post' => $post,
                 'count' => $count,
-                'totalLikes' => $totalLikes,
                 ]);
         }else{
             return view('partials/404');
@@ -93,12 +86,16 @@ class UserController extends Controller
     }
 
     public function like($id){
+        if(!Auth::check()){
+            return redirect('/login');
+        }
         $ids = Auth::user()->id;
-        $like = Like::where('user_id',$ids)->first();
-        // dd($like);
+        $like = Like::where('post_id',$id)->where('user_id', $ids);
 
-        $check = Like::where('user_id', $ids)->where('post_id', $id)->first();
-        if($like){
+        $check = Like::where('user_id', $ids)->where('post_id', $id)->exists();
+        // dd($check);
+
+        if($check){
             $like->delete();
 
         }else{
